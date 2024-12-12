@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import PrivateRoute from '../private-route/PrivateRoute';
-import MainPage from '../../pages/main/MainPage';
-import Login from '../../pages/login/Login';
-import NotFound from '../../pages/not-found/NotFound';
+import PrivateRoute from '../private-route/private-route';
+import MainPage from '../../pages/main/main';
+import Login from '../../pages/login/login';
+import NotFound from '../../pages/not-found/not-found';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import Offer from '../../pages/offer/Offer';
-import Favorites from '../../pages/favorites/Favorites';
+import Offer from '../../pages/offer/оffer';
+import Favorites from '../../pages/favorites/favorites';
 
 type AppProps = {
   offersCount: number;

@@ -1,5 +1,5 @@
-import Header from '../../components/header/Header';
-import Card from '../../components/card/Card';
+import Header from '../../components/header/header';
+import Card from '../../components/card/card';
 
 type MainProps = {
   offersCount: number;
