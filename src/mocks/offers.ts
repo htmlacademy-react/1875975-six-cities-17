@@ -1,6 +1,6 @@
-import { Offer } from '../types/types';
+import { OfferType } from '../types/types';
 
-const offers: Offer[] = [
+const offers: OfferType[] = [
   {
     id: 'cba2cab1-a30a-45d7-b678-7249cc98f412',
     title: 'Perfectly located Castro',
