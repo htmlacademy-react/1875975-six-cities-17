@@ -1,6 +1,7 @@
 import type { OfferType } from '../../types/types';
+import { STARS_COUNT, MAX_PERCENT_WIDTH } from '../../const';
 
-function Card({title, type, price, previewImage}: OfferType) {
+function Card({title, type, price, previewImage, rating}: OfferType) {
   return (
     <article className="cities__card place-card">
       <div className="cities__image-wrapper place-card__image-wrapper">
@@ -23,7 +24,7 @@ function Card({title, type, price, previewImage}: OfferType) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: '80%' }}></span>
+            <span style={{ width: `${Math.round(rating) * MAX_PERCENT_WIDTH / STARS_COUNT}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
