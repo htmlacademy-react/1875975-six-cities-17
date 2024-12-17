@@ -23,7 +23,7 @@ function App({offers}: AppProps) {
           <PrivateRoute
             authorizationStatus={AuthorizationStatus.NoAuth}
           >
-            <Favorites />
+            <Favorites offers={offers} />
           </PrivateRoute>
         }
         />

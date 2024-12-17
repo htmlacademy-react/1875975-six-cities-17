@@ -2,14 +2,15 @@ import type { OfferType } from '../../types/types';
 import { STARS_COUNT, MAX_PERCENT_WIDTH } from '../../const';
 
 type CardProps = OfferType & {
-  onMouseEnter: (id: string | null) => void;
-  onMouseLeave: () => void;
+  onMouseEnter?: (id: string | null) => void;
+  onMouseLeave?: () => void;
+  category: 'cities' | 'favorites';
 }
 
-function Card({id, title, type, price, previewImage, rating, onMouseEnter, onMouseLeave}: CardProps) {
+function Card({id, title, type, price, previewImage, rating, category = 'cities', onMouseEnter = () => void 0, onMouseLeave = () => void 0}: CardProps) {
   return (
-    <article className="cities__card place-card" onMouseEnter={() => onMouseEnter(id)} onMouseLeave={onMouseLeave}>
-      <div className="cities__image-wrapper place-card__image-wrapper">
+    <article className={`${category}__card place-card`} onMouseEnter={() => onMouseEnter(id)} onMouseLeave={onMouseLeave}>
+      <div className={`${category}__image-wrapper place-card__image-wrapper`}>
         <a href="#">
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
         </a>
