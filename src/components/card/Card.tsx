@@ -1,10 +1,12 @@
+import { Link } from 'react-router-dom';
 import type { OfferType } from '../../types/types';
 import { STARS_COUNT, MAX_PERCENT_WIDTH } from '../../const';
+import { AppRoute } from '../../const';
 
 type CardProps = OfferType & {
   onMouseEnter?: (id: string | null) => void;
   onMouseLeave?: () => void;
-  category: 'cities' | 'favorites';
+  category?: 'cities' | 'favorites' | 'near-places';
 }
 
 function Card({id, title, type, price, previewImage, rating, category = 'cities', onMouseEnter = () => void 0, onMouseLeave = () => void 0}: CardProps) {
@@ -35,7 +37,7 @@ function Card({id, title, type, price, previewImage, rating, category = 'cities'
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href='#'>{title}</a>
+          <Link to={`${AppRoute.Offer}/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
