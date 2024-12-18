@@ -15,7 +15,7 @@ export const enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const RAITING_VALUE:{ [key: number]: string } = {
+export const RATING_VALUE:{ [key: number]: string } = {
   5: 'perfect',
   4: 'good',
   3: 'not bad',
