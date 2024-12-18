@@ -15,3 +15,10 @@ export const enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export const RAITING_VALUE:{ [key: number]: string } = {
+  5: 'perfect',
+  4: 'good',
+  3: 'not bad',
+  2: 'badly',
+  1: 'terribly'
+};
