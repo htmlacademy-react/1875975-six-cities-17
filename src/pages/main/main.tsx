@@ -1,11 +1,13 @@
-import Header from '../../components/header/Header';
-import Card from '../../components/card/Card';
+import type { OfferType } from '../../types/types';
+
+import Header from '../../components/header/header';
+import CardList from '../../components/card-list/card-list';
 
 type MainProps = {
-  offersCount: number;
+  offers: OfferType[];
 }
 
-function MainPage({offersCount}: MainProps) {
+function MainPage({offers}: MainProps) {
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -51,7 +53,7 @@ function MainPage({offersCount}: MainProps) {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offersCount} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -67,11 +69,7 @@ function MainPage({offersCount}: MainProps) {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {Array.from({ length: offersCount }, (_, index) => (
-                  <Card key={index} />
-                ))}
-              </div>
+              <CardList offers={offers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
