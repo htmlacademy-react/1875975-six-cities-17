@@ -1,13 +1,25 @@
+import { useState } from 'react';
 import type { OfferType } from '../../types/types';
 
 import Header from '../../components/header/header';
 import CardList from '../../components/card-list/card-list';
+import Map from '../../components/map/map';
 
 type MainProps = {
   offers: OfferType[];
 }
 
 function MainPage({offers}: MainProps) {
+  const [activeCardId, setActiveCardId] = useState<string | null>(null);
+
+  const handleCardMouseEnter = (id: string | null) => {
+    setActiveCardId(id);
+  };
+
+  const handleCardMouseLeave = () => {
+    setActiveCardId(null);
+  };
+
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -69,10 +81,11 @@ function MainPage({offers}: MainProps) {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <CardList offers={offers}/>
+              <CardList offers={offers} onCardMouseEnter={handleCardMouseEnter} onCardMouseLeave={handleCardMouseLeave}/>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={offers[0].city} offers={offers} activeCardId={activeCardId} />
+              {/* пока нет переключения по городам - Амстердам по дефолту */}
             </div>
           </div>
         </div>
