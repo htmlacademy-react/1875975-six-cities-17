@@ -1,22 +1,13 @@
-import { useState } from 'react';
 import Card from '../card/card';
 import type { OfferType } from '../../types/types';
 
 type CardListProps = {
   offers: OfferType[];
+  onCardMouseEnter: (id: string) => void;
+  onCardMouseLeave: () => void;
 };
 
-function CardList({ offers }: CardListProps) {
-
-  const [activeCardId, setActiveCardId] = useState<string | null>(null);
-
-  const handleCardMouseEnter = (id: string | null) => {
-    setActiveCardId(id);
-  };
-
-  const handleCardMouseLeave = () => {
-    setActiveCardId(null);
-  };
+function CardList({ offers, onCardMouseEnter, onCardMouseLeave }: CardListProps) {
 
   return (
     <div className="cities__places-list places__list tabs__content">
@@ -24,8 +15,8 @@ function CardList({ offers }: CardListProps) {
         <Card
           key={offer.id}
           {...offer}
-          onMouseEnter={handleCardMouseEnter}
-          onMouseLeave={handleCardMouseLeave}
+          onMouseEnter={() => onCardMouseEnter(offer.id)}
+          onMouseLeave={onCardMouseLeave}
         />
       ))}
     </div>
