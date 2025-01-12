@@ -4,10 +4,16 @@ import type { OfferType } from '../../types/types';
 import Header from '../../components/header/header';
 import CardList from '../../components/card-list/card-list';
 import Map from '../../components/map/map';
+import CitiesList from '../../components/cities-list/cities-list';
+
+import { CITIES_LIST } from '../../const';
 
 type MainProps = {
   offers: OfferType[];
 }
+
+const activeCity = CITIES_LIST[3];
+//временно константа
 
 function MainPage({offers}: MainProps) {
   const [activeCardId, setActiveCardId] = useState<string | null>(null);
@@ -26,40 +32,7 @@ function MainPage({offers}: MainProps) {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
+          <CitiesList activeCityName={activeCity.name} />
         </div>
         <div className="cities">
           <div className="cities__places-container container">
@@ -84,7 +57,7 @@ function MainPage({offers}: MainProps) {
               <CardList offers={offers} onCardMouseEnter={handleCardMouseEnter} onCardMouseLeave={handleCardMouseLeave}/>
             </section>
             <div className="cities__right-section">
-              <Map city={offers[0].city} offers={offers} activeCardId={activeCardId} />
+              <Map city={activeCity} offers={offers} activeCardId={activeCardId} />
               {/* пока нет переключения по городам - Амстердам по дефолту */}
             </div>
           </div>

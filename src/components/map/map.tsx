@@ -38,7 +38,7 @@ function Map({city, offers, activeCardId}: MapProps) {
         map.removeLayer(markerLayer);
       };
     }
-  }, [map, offers, activeCardId]);
+  }, [city, map, offers, activeCardId]);
 
   return <section className="cities__map map" ref={mapRef} />;
 }
