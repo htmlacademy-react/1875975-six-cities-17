@@ -16,7 +16,7 @@ function App({offers}: AppProps) {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<MainPage offers={offers} />} />
+        <Route index element={<MainPage />} />
         <Route path={AppRoute.Login} element={<Login />} />
         <Route path={`${AppRoute.Offer}/:id`} element={<Offer />} />
         <Route path={AppRoute.Favorites} element={
