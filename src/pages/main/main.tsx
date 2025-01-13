@@ -1,15 +1,17 @@
 import { useState } from 'react';
-import type { OfferType } from '../../types/types';
+import { useAppSelector } from '../../hooks';
 
 import Header from '../../components/header/header';
 import CardList from '../../components/card-list/card-list';
 import Map from '../../components/map/map';
+import CitiesList from '../../components/cities-list/cities-list';
 
-type MainProps = {
-  offers: OfferType[];
-}
 
-function MainPage({offers}: MainProps) {
+function MainPage() {
+  const offers = useAppSelector((state) => state.offers);
+  const activeCity = useAppSelector((state) => state.city);
+  const activeOffers = offers.filter((offer) => offer.city.name === activeCity.name);
+
   const [activeCardId, setActiveCardId] = useState<string | null>(null);
 
   const handleCardMouseEnter = (id: string | null) => {
@@ -26,46 +28,13 @@ function MainPage({offers}: MainProps) {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
+          <CitiesList activeCityName={activeCity.name} />
         </div>
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+              <b className="places__found">{activeOffers.length} places to stay in {activeCity.name}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -81,11 +50,10 @@ function MainPage({offers}: MainProps) {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <CardList offers={offers} onCardMouseEnter={handleCardMouseEnter} onCardMouseLeave={handleCardMouseLeave}/>
+              <CardList offers={activeOffers} onCardMouseEnter={handleCardMouseEnter} onCardMouseLeave={handleCardMouseLeave}/>
             </section>
             <div className="cities__right-section">
-              <Map city={offers[0].city} offers={offers} activeCardId={activeCardId} />
-              {/* пока нет переключения по городам - Амстердам по дефолту */}
+              <Map city={activeCity} offers={activeOffers} activeCardId={activeCardId} />
             </div>
           </div>
         </div>

@@ -92,6 +92,29 @@ const offers: OfferType[] = [
     isFavorite: false,
     isPremium: false,
     rating: 2.1
+  },
+  {
+    id: '73b49e3f-b065-4dc9-9acd-319b0404dd8c',
+    title: 'The house among olive',
+    type: 'apartment',
+    price: 410,
+    previewImage: 'https://16.design.htmlacademy.pro/static/hotel/15.jpg',
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 48.85661,
+        longitude: 2.351499,
+        zoom: 13
+      }
+    },
+    location: {
+      latitude: 48.868610000000004,
+      longitude: 2.342499,
+      zoom: 16
+    },
+    isFavorite: false,
+    isPremium: true,
+    rating: 3
   }
 ];
 
