@@ -1,3 +1,5 @@
+import { SortOption } from '../const';
+
 export type CityName = 'Paris' | 'Cologne' | 'Brussels' | 'Amsterdam' | 'Hamburg' | 'Dusseldorf';
 
 export type Location = {
@@ -23,3 +25,5 @@ export type OfferType = {
   rating: number;
   previewImage: string;
 }
+
+export type SortName = `${SortOption}`;

@@ -97,3 +97,10 @@ export const CITIES_LIST: City[] = [
     }
   }
 ] as const;
+
+export enum SortOption {
+  Popular = 'Popular',
+  PriceLow = 'Price: low to high',
+  PriceHigh = 'Price: high to low',
+  TopRated = 'Top rated first'
+}
