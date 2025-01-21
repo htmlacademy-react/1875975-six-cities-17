@@ -104,3 +104,11 @@ export enum SortOption {
   PriceHigh = 'Price: high to low',
   TopRated = 'Top rated first'
 }
+
+export enum ApiRoute {
+  Offers = '/offers',
+  Favorites = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout'
+}
