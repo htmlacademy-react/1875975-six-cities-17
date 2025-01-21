@@ -8,7 +8,6 @@ import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
 import Sorting from '../../components/sorting/sorting';
 
-
 function MainPage() {
   const offers = useAppSelector((state) => state.offers);
   const activeCity = useAppSelector((state) => state.city);
