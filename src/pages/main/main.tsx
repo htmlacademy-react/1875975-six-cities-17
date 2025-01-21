@@ -7,6 +7,7 @@ import CardList from '../../components/card-list/card-list';
 import Map from '../../components/map/map';
 import CitiesList from '../../components/cities-list/cities-list';
 import Sorting from '../../components/sorting/sorting';
+import Loader from '../../components/loader/loader';
 
 function MainPage() {
   const offers = useAppSelector((state) => state.offers);
@@ -14,6 +15,7 @@ function MainPage() {
   const currentSorting = useAppSelector((state) => state.sorting);
   const activeOffers = offers.filter((offer) => offer.city.name === activeCity.name);
   const sortedOffers = sortOffers(activeOffers, currentSorting);
+  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
 
   const [activeCardId, setActiveCardId] = useState<string | null>(null);
 
@@ -24,6 +26,10 @@ function MainPage() {
   const handleCardMouseLeave = () => {
     setActiveCardId(null);
   };
+
+  if (isOffersLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="page page--gray page--main">
