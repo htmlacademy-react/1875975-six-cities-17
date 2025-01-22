@@ -3,7 +3,7 @@ import { changeCity, loadOffers, changeSort } from './action';
 import { fetchOffersAction } from './api-actions';
 
 import { City, OfferType, SortName } from '../types/types';
-import { CITIES_LIST } from '../const';
+import { AuthorizationStatus, CITIES_LIST } from '../const';
 import { SortOption } from '../const';
 
 type State = {
@@ -11,6 +11,7 @@ type State = {
   offers: OfferType[];
   sorting: SortName;
   isOffersLoading: boolean;
+  authorizationStatus: AuthorizationStatus;
 }
 
 const initialState: State = {
@@ -18,6 +19,7 @@ const initialState: State = {
   offers: [],
   sorting: SortOption.Popular,
   isOffersLoading: false,
+  authorizationStatus: AuthorizationStatus.NoAuth,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
