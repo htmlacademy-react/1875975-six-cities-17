@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeCity, loadOffers, changeSort } from './action';
+import { changeCity, loadOffers, changeSort, requireAuthorization } from './action';
 import { fetchOffersAction } from './api-actions';
 
 import { City, OfferType, SortName } from '../types/types';
@@ -41,5 +41,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(changeSort, (state, action) => {
       state.sorting = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
     });
 });

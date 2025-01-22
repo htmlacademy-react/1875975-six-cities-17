@@ -27,3 +27,13 @@ export type OfferType = {
 }
 
 export type SortName = `${SortOption}`;
+
+export type UserData = {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+  email: string;
+  token: string;
+}
+
+export type AuthData = Pick<UserData, 'email'> & { password: string };
