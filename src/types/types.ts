@@ -36,4 +36,8 @@ export type UserData = {
   token: string;
 }
 
-export type AuthData = Pick<UserData, 'email'> & { password: string };
+// export type AuthData = Pick<UserData, 'email'> & { password: string };
+export type AuthData = {
+  email: string;
+  password: string;
+}

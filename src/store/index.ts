@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { reducer } from './reducer';
-import { fetchOffersAction } from './api-actions';
+import { checkAuthAction, fetchOffersAction } from './api-actions';
 import { createAPI } from '../services/api';
 
 export const api = createAPI();
@@ -16,5 +16,6 @@ const store = configureStore({
 });
 
 store.dispatch(fetchOffersAction());
+store.dispatch(checkAuthAction());
 
 export default store;
