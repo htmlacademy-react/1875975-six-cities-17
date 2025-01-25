@@ -2,6 +2,8 @@ import { City } from './types/types';
 
 export const STARS_COUNT = 5;
 export const MAX_PERCENT_WIDTH = 100;
+export const START_INDEX = 0;
+export const MAX_NEARBY_OFFERS = 3;
 
 export const enum AppRoute {
   Index = '/',
@@ -110,5 +112,6 @@ export enum ApiRoute {
   Favorites = '/favorite',
   Comments = '/comments',
   Login = '/login',
-  Logout = '/logout'
+  Logout = '/logout',
+  Nearby = '/nearby'
 }

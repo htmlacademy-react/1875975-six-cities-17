@@ -58,6 +58,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(ApiRoute.Logout);
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    // переписать на этапе оптимизации
   },
 );
 
@@ -69,6 +70,18 @@ export const fetchOfferAction = createAsyncThunk<DetailedOffer, string, {
   'offers/fetchOffer',
   async (id, {extra: api}) => {
     const {data} = await api.get<DetailedOffer>(`${ApiRoute.Offers}/${id}`);
+    return data;
+  },
+);
+
+export const fetchNearbyOffersAction = createAsyncThunk<OfferType[], string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/fetchNearbyOffers',
+  async (id, {extra: api}) => {
+    const {data} = await api.get<OfferType[]>(`${ApiRoute.Offers}/${id}${ApiRoute.Nearby}`);
     return data;
   },
 );

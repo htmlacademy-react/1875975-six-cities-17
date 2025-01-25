@@ -6,20 +6,23 @@ import NotFound from '../not-found/not-found';
 import Header from '../../components/header/header';
 import Form from '../../components/form/form';
 import { useAppDispatch } from '../../hooks';
-import { fetchOfferAction } from '../../store/api-actions';
-import { getOfferData, getOfferLoadingStatus } from '../../store/selectors';
-import { MAX_PERCENT_WIDTH, STARS_COUNT } from '../../const';
+import { fetchNearbyOffersAction, fetchOfferAction } from '../../store/api-actions';
+import { getNearbyOffers, getOfferData, getOfferLoadingStatus } from '../../store/selectors';
+import { MAX_NEARBY_OFFERS, MAX_PERCENT_WIDTH, STARS_COUNT, START_INDEX } from '../../const';
 import { capitalizeWord, pluralizeWord } from '../../utils/utils';
+import Card from '../../components/card/card';
 
 function Offer() {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const offer = useSelector(getOfferData);
   const isLoading = useSelector(getOfferLoadingStatus);
+  const nearbyOffers = useSelector(getNearbyOffers).slice(START_INDEX, MAX_NEARBY_OFFERS);
 
   useEffect(() => {
     if (id) {
       dispatch(fetchOfferAction(id));
+      dispatch(fetchNearbyOffersAction(id));
     }
   }, [id, dispatch]);
 
@@ -154,7 +157,8 @@ function Offer() {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <article className="near-places__card place-card">
+              {nearbyOffers.map((nearbyOffer) => <Card key={nearbyOffer.id} {...nearbyOffer} category="near-places"/>)}
+              {/* <article className="near-places__card place-card">
                 <div className="near-places__image-wrapper place-card__image-wrapper">
                   <a href="#">
                     <img className="place-card__image" src="img/room.jpg" width="260" height="200" alt="Place image" />
@@ -251,7 +255,7 @@ function Offer() {
                   </h2>
                   <p className="place-card__type">Apartment</p>
                 </div>
-              </article>
+              </article> */}
             </div>
           </section>
         </div>

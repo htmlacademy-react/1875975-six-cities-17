@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { changeCity, loadOffers, changeSort, requireAuthorization, setUserData } from './action';
-import { fetchOfferAction, fetchOffersAction, loginAction, logoutAction } from './api-actions';
+import { fetchNearbyOffersAction, fetchOfferAction, fetchOffersAction, loginAction, logoutAction } from './api-actions';
 
 import { City, DetailedOffer, OfferType, SortName, UserData } from '../types/types';
 import { AuthorizationStatus, CITIES_LIST } from '../const';
@@ -15,6 +15,7 @@ type State = {
   isOfferLoading: boolean;
   authorizationStatus: AuthorizationStatus;
   userData: UserData | null;
+  nearbyOffers: OfferType[];
 }
 
 const initialState: State = {
@@ -26,6 +27,7 @@ const initialState: State = {
   isOfferLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   userData: null,
+  nearbyOffers: [],
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -54,6 +56,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchOfferAction.rejected, (state) => {
       state.isOfferLoading = false;
+    })
+    .addCase(fetchNearbyOffersAction.fulfilled, (state, action) => {
+      state.nearbyOffers = action.payload;
     })
     .addCase(changeSort, (state, action) => {
       state.sorting = action.payload;
