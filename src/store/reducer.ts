@@ -1,8 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { changeCity, loadOffers, changeSort, requireAuthorization, setUserData } from './action';
-import { fetchNearbyOffersAction, fetchOfferAction, fetchOffersAction, loginAction, logoutAction } from './api-actions';
+import { fetchNearbyOffersAction, fetchOfferAction, fetchOffersAction, fetchReviewsAction, loginAction, logoutAction } from './api-actions';
 
-import { City, DetailedOffer, OfferType, SortName, UserData } from '../types/types';
+import { City, DetailedOffer, OfferType, ReviewType, SortName, UserData } from '../types/types';
 import { AuthorizationStatus, CITIES_LIST } from '../const';
 import { SortOption } from '../const';
 
@@ -16,6 +16,7 @@ type State = {
   authorizationStatus: AuthorizationStatus;
   userData: UserData | null;
   nearbyOffers: OfferType[];
+  reviews: ReviewType[];
 }
 
 const initialState: State = {
@@ -28,6 +29,7 @@ const initialState: State = {
   authorizationStatus: AuthorizationStatus.Unknown,
   userData: null,
   nearbyOffers: [],
+  reviews: [],
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -59,6 +61,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchNearbyOffersAction.fulfilled, (state, action) => {
       state.nearbyOffers = action.payload;
+    })
+    .addCase(fetchReviewsAction.fulfilled, (state, action) => {
+      state.reviews = action.payload;
     })
     .addCase(changeSort, (state, action) => {
       state.sorting = action.payload;

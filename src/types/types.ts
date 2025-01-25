@@ -55,3 +55,14 @@ export type AuthData = {
   email: string;
   password: string;
 }
+
+export type Comment = {
+  rating: number;
+  comment: string;
+}
+
+export type ReviewType = Comment & {
+  id: string;
+  date: string;
+  user: Pick<UserData, 'name' | 'avatarUrl' | 'isPro'>;
+}

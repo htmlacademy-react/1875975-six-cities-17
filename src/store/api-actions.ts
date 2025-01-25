@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AuthData, DetailedOffer, OfferType, UserData } from '../types/types';
+import { AuthData, DetailedOffer, OfferType, ReviewType, UserData } from '../types/types';
 import { AppDispatch, State } from '../types/state';
 import { ApiRoute, AuthorizationStatus } from '../const';
 import { loadOffers, requireAuthorization, setUserData } from './action';
@@ -82,6 +82,18 @@ export const fetchNearbyOffersAction = createAsyncThunk<OfferType[], string, {
   'offers/fetchNearbyOffers',
   async (id, {extra: api}) => {
     const {data} = await api.get<OfferType[]>(`${ApiRoute.Offers}/${id}${ApiRoute.Nearby}`);
+    return data;
+  },
+);
+
+export const fetchReviewsAction = createAsyncThunk<ReviewType[], string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/fetchReviews',
+  async (id, {extra: api}) => {
+    const {data} = await api.get<ReviewType[]>(`${ApiRoute.Comments}/${id}`);
     return data;
   },
 );

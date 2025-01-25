@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import type { OfferType } from '../../types/types';
-import { STARS_COUNT, MAX_PERCENT_WIDTH } from '../../const';
 import { AppRoute } from '../../const';
+import { getStarsRatingWidth } from '../../utils/utils';
 
 type CardProps = OfferType & {
   onMouseEnter?: (id: string | null) => void;
@@ -32,7 +32,7 @@ function Card({id, title, type, price, previewImage, rating, category = 'cities'
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${Math.round(rating) * MAX_PERCENT_WIDTH / STARS_COUNT}%` }}></span>
+            <span style={{ width: getStarsRatingWidth(rating) }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
