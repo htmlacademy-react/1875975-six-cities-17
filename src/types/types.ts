@@ -41,6 +41,8 @@ export type DetailedOffer = Omit<OfferType, 'previewImage'> & {
   maxAdults: number;
 };
 
+export type CommonOfferType = Pick<OfferType, 'id' | 'location'>;
+
 export type SortName = `${SortOption}`;
 
 export type UserData = {

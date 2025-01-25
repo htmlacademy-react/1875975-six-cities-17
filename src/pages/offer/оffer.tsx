@@ -5,11 +5,12 @@ import Loader from '../../components/loader/loader';
 import NotFound from '../not-found/not-found';
 import Header from '../../components/header/header';
 import Form from '../../components/form/form';
+import Map from '../../components/map/map';
 import { useAppDispatch } from '../../hooks';
 import { fetchNearbyOffersAction, fetchOfferAction, fetchReviewsAction } from '../../store/api-actions';
-import { getNearbyOffers, getOfferData, getOfferLoadingStatus, getReviews } from '../../store/selectors';
-import { MAX_NEARBY_OFFERS, START_INDEX } from '../../const';
-import { capitalizeWord, pluralizeWord, getStarsRatingWidth } from '../../utils/utils';
+import { getAuthorizationStatus, getNearbyOffers, getOfferData, getOfferLoadingStatus, getReviews } from '../../store/selectors';
+import { AuthorizationStatus, MAX_NEARBY_OFFERS, START_INDEX } from '../../const';
+import { capitalizeWord, pluralizeWord, getStarsRatingWidth, getCommonTypeOffers } from '../../utils/utils';
 import Card from '../../components/card/card';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 
@@ -20,6 +21,7 @@ function Offer() {
   const isLoading = useSelector(getOfferLoadingStatus);
   const nearbyOffers = useSelector(getNearbyOffers).slice(START_INDEX, MAX_NEARBY_OFFERS);
   const reviews = useSelector(getReviews);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
 
   useEffect(() => {
     if (id) {
@@ -36,6 +38,8 @@ function Offer() {
   if (!offer) {
     return <NotFound />;
   }
+
+  const commonTypeOffers = getCommonTypeOffers(offer, nearbyOffers);
 
   const {images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host, description} = offer;
 
@@ -127,11 +131,11 @@ function Offer() {
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
                 <ReviewsList reviews={reviews} />
-                <Form/>
+                {authorizationStatus === AuthorizationStatus.Auth && <Form/>}
               </section>
             </div>
           </div>
-          <section className="offer__map map"></section>
+          <Map city={offer.city} offers={commonTypeOffers} activeCardId={id} mapPlace={'offer'} />
         </section>
         <div className="container">
           <section className="near-places places">

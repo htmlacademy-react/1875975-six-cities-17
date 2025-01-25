@@ -1,4 +1,4 @@
-import { OfferType, ReviewType, SortName } from '../types/types';
+import { CommonOfferType, DetailedOffer, OfferType, ReviewType, SortName } from '../types/types';
 import { MAX_PERCENT_WIDTH, SortOption, STARS_COUNT } from '../const';
 
 export const groupFavoriteOffers = (offers: OfferType[]): { [key: string]: OfferType[] } => {
@@ -37,6 +37,18 @@ export const sortReviews = (reviews: ReviewType[]) => [...reviews].sort((a, b) =
   const dateB = new Date(b.date);
   return dateB.getTime() - dateA.getTime();
 });
+
+export const getCommonTypeOffers = (offer: DetailedOffer, nearbyOffers: OfferType[]): CommonOfferType[] => {
+  const commonOffer = {
+    id: offer.id,
+    location: offer.location,
+  };
+  const commonNearbyOffers = nearbyOffers.map((nearbyOffer) => ({
+    id: nearbyOffer.id,
+    location: nearbyOffer.location,
+  }));
+  return [commonOffer, ...commonNearbyOffers];
+};
 
 export const getFormattedDate = (date: string) => {
   const dateObj = new Date(date);
