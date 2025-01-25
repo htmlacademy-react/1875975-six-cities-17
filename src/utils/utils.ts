@@ -31,3 +31,6 @@ export const sortOffers = (offers: OfferType[], sortType: SortName): OfferType[]
       return offers;
   }
 };
+
+export const capitalizeWord = (word: string) => word.charAt(0).toUpperCase() + word.slice(1);
+export const pluralizeWord = (word: string, count: number) => count === 1 ? word : `${word}s`;

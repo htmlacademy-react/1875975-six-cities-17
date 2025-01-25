@@ -1,8 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { changeCity, loadOffers, changeSort, requireAuthorization, setUserData } from './action';
-import { fetchOffersAction, loginAction, logoutAction } from './api-actions';
+import { fetchOfferAction, fetchOffersAction, loginAction, logoutAction } from './api-actions';
 
-import { City, OfferType, SortName, UserData } from '../types/types';
+import { City, DetailedOffer, OfferType, SortName, UserData } from '../types/types';
 import { AuthorizationStatus, CITIES_LIST } from '../const';
 import { SortOption } from '../const';
 
@@ -11,6 +11,8 @@ type State = {
   offers: OfferType[];
   sorting: SortName;
   isOffersLoading: boolean;
+  offer: DetailedOffer | null;
+  isOfferLoading: boolean;
   authorizationStatus: AuthorizationStatus;
   userData: UserData | null;
 }
@@ -20,6 +22,8 @@ const initialState: State = {
   offers: [],
   sorting: SortOption.Popular,
   isOffersLoading: false,
+  offer: null,
+  isOfferLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   userData: null,
 };
@@ -40,6 +44,16 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchOffersAction.rejected, (state) => {
       state.isOffersLoading = false;
+    })
+    .addCase(fetchOfferAction.pending, (state) => {
+      state.isOfferLoading = true;
+    })
+    .addCase(fetchOfferAction.fulfilled, (state, action) => {
+      state.offer = action.payload;
+      state.isOfferLoading = false;
+    })
+    .addCase(fetchOfferAction.rejected, (state) => {
+      state.isOfferLoading = false;
     })
     .addCase(changeSort, (state, action) => {
       state.sorting = action.payload;

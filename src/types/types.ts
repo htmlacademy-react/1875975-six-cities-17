@@ -26,6 +26,21 @@ export type OfferType = {
   previewImage: string;
 }
 
+type Host = {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+  }
+
+export type DetailedOffer = Omit<OfferType, 'previewImage'> & {
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: Host;
+  images: string[];
+  maxAdults: number;
+};
+
 export type SortName = `${SortOption}`;
 
 export type UserData = {
@@ -36,7 +51,6 @@ export type UserData = {
   token: string;
 }
 
-// export type AuthData = Pick<UserData, 'email'> & { password: string };
 export type AuthData = {
   email: string;
   password: string;

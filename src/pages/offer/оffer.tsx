@@ -1,7 +1,38 @@
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Loader from '../../components/loader/loader';
+import NotFound from '../not-found/not-found';
 import Header from '../../components/header/header';
 import Form from '../../components/form/form';
+import { useAppDispatch } from '../../hooks';
+import { fetchOfferAction } from '../../store/api-actions';
+import { getOfferData, getOfferLoadingStatus } from '../../store/selectors';
+import { MAX_PERCENT_WIDTH, STARS_COUNT } from '../../const';
+import { capitalizeWord, pluralizeWord } from '../../utils/utils';
 
 function Offer() {
+  const { id } = useParams();
+  const dispatch = useAppDispatch();
+  const offer = useSelector(getOfferData);
+  const isLoading = useSelector(getOfferLoadingStatus);
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchOfferAction(id));
+    }
+  }, [id, dispatch]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (!offer) {
+    return <NotFound />;
+  }
+
+  const {images, isPremium, title, rating, type, bedrooms, maxAdults, price, goods, host, description} = offer;
+
   return (
     <div className="page">
       <Header />
@@ -10,34 +41,21 @@ function Offer() {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/room.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-02.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-03.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/studio-01.jpg" alt="Photo studio" />
-              </div>
-              <div className="offer__image-wrapper">
-                <img className="offer__image" src="img/apartment-01.jpg" alt="Photo studio" />
-              </div>
+              {images.map((image) => (
+                <div className="offer__image-wrapper" key={image}>
+                  <img className="offer__image" src={image} alt="Photo." />
+                </div>
+              ))}
             </div>
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
               <div className="offer__mark">
-                <span>Premium</span>
+                {isPremium && (<div className="offer__mark"><span>Premium</span></div>)}
               </div>
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
-                  Beautiful &amp; luxurious studio at great location
+                  {title}
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
@@ -48,72 +66,47 @@ function Offer() {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: '80%'}}></span>
+                  <span style={{width: `${Math.round(rating) * MAX_PERCENT_WIDTH / STARS_COUNT}%`}}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="offer__rating-value rating__value">4.8</span>
+                <span className="offer__rating-value rating__value">{rating}</span>
               </div>
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">
-                  Apartment
+                  {capitalizeWord(type)}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  3 Bedrooms
+                  {bedrooms} {pluralizeWord('Bedroom', bedrooms)}
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max 4 adults
+                  Max {maxAdults} {pluralizeWord('adult', maxAdults)}
                 </li>
               </ul>
               <div className="offer__price">
-                <b className="offer__price-value">&euro;120</b>
+                <b className="offer__price-value">&euro;{price}</b>
                 <span className="offer__price-text">&nbsp;night</span>
               </div>
               <div className="offer__inside">
                 <h2 className="offer__inside-title">What&apos;s inside</h2>
                 <ul className="offer__inside-list">
-                  <li className="offer__inside-item">
-                    Wi-Fi
-                  </li>
-                  <li className="offer__inside-item">
-                    Washing machine
-                  </li>
-                  <li className="offer__inside-item">
-                    Towels
-                  </li>
-                  <li className="offer__inside-item">
-                    Heating
-                  </li>
-                  <li className="offer__inside-item">
-                    Coffee machine
-                  </li>
-                  <li className="offer__inside-item">
-                    Baby seat
-                  </li>
-                  <li className="offer__inside-item">
-                    Kitchen
-                  </li>
-                  <li className="offer__inside-item">
-                    Dishwasher
-                  </li>
-                  <li className="offer__inside-item">
-                    Cabel TV
-                  </li>
-                  <li className="offer__inside-item">
-                    Fridge
-                  </li>
+                  {goods.map((good) => (
+                    <li className="offer__inside-item" key={good}>
+                      {good}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                    <img className="offer__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
+                  <div className={`offer__avatar-wrapper ${host.isPro ? 'offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
+                    <img className="offer__avatar user__avatar" src={host.avatarUrl} width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="offer__user-name">
-                    Angelina
+                    {host.name}
                   </span>
                   <span className="offer__user-status">
-                    Pro
+                    {host.isPro && <span className="offer__user-status">Pro</span>}
                   </span>
                 </div>
                 <div className="offer__description">
@@ -121,7 +114,7 @@ function Offer() {
                     A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
                   </p>
                   <p className="offer__text">
-                    An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.
+                    {description}
                   </p>
                 </div>
               </div>

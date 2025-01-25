@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AuthData, OfferType, UserData } from '../types/types';
+import { AuthData, DetailedOffer, OfferType, UserData } from '../types/types';
 import { AppDispatch, State } from '../types/state';
 import { ApiRoute, AuthorizationStatus } from '../const';
 import { loadOffers, requireAuthorization, setUserData } from './action';
@@ -58,5 +58,17 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(ApiRoute.Logout);
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+  },
+);
+
+export const fetchOfferAction = createAsyncThunk<DetailedOffer, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/fetchOffer',
+  async (id, {extra: api}) => {
+    const {data} = await api.get<DetailedOffer>(`${ApiRoute.Offers}/${id}`);
+    return data;
   },
 );
