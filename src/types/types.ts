@@ -63,6 +63,11 @@ export type Comment = {
   comment: string;
 }
 
+export type PostCommentInfo = {
+  id: string;
+  comment: Comment;
+}
+
 export type ReviewType = Comment & {
   id: string;
   date: string;

@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { changeCity, loadOffers, changeSort, requireAuthorization, setUserData } from './action';
-import { fetchNearbyOffersAction, fetchOfferAction, fetchOffersAction, fetchReviewsAction, loginAction, logoutAction } from './api-actions';
+import { fetchNearbyOffersAction, fetchOfferAction, fetchOffersAction, fetchReviewsAction, loginAction, logoutAction, postCommentAction } from './api-actions';
 
 import { City, DetailedOffer, OfferType, ReviewType, SortName, UserData } from '../types/types';
 import { AuthorizationStatus, CITIES_LIST } from '../const';
@@ -64,6 +64,9 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchReviewsAction.fulfilled, (state, action) => {
       state.reviews = action.payload;
+    })
+    .addCase(postCommentAction.fulfilled, (state, action) => {
+      state.reviews.push(action.payload);
     })
     .addCase(changeSort, (state, action) => {
       state.sorting = action.payload;

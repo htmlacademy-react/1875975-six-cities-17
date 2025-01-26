@@ -3,10 +3,6 @@ import { StatusCodes } from 'http-status-codes';
 import { getToken } from './token';
 import { toast } from 'react-toastify';
 
-// type DetailMessageType = {
-//   details:
-// }
-
 type ValidationErrorDetail = {
   property: string;
   value: string;
@@ -54,8 +50,13 @@ export const createAPI = (): AxiosInstance => {
       if (error.response && shouldDisplayError(error.response)) {
         const { details } = error.response.data;
         if (details && details.length > 0) {
-          const firstError = details[0];
-          toast.warn(firstError.messages[0]);
+          details.forEach((detail) => {
+            if (detail.messages && detail.messages.length > 0) {
+              detail.messages.forEach((message) => {
+                toast.warn(message);
+              });
+            }
+          });
         } else {
           toast.warn(error.response.data.message);
         }
