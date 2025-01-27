@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AuthData, OfferType, UserData } from '../types/types';
+import { AuthData, DetailedOffer, OfferType, PostCommentInfo, ReviewType, UserData } from '../types/types';
 import { AppDispatch, State } from '../types/state';
 import { ApiRoute, AuthorizationStatus } from '../const';
 import { loadOffers, requireAuthorization, setUserData } from './action';
@@ -58,5 +58,54 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(ApiRoute.Logout);
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    // переписать на этапе оптимизации
+  },
+);
+
+export const fetchOfferAction = createAsyncThunk<DetailedOffer, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/fetchOffer',
+  async (id, {extra: api}) => {
+    const {data} = await api.get<DetailedOffer>(`${ApiRoute.Offers}/${id}`);
+    return data;
+  },
+);
+
+export const fetchNearbyOffersAction = createAsyncThunk<OfferType[], string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/fetchNearbyOffers',
+  async (id, {extra: api}) => {
+    const {data} = await api.get<OfferType[]>(`${ApiRoute.Offers}/${id}${ApiRoute.Nearby}`);
+    return data;
+  },
+);
+
+export const fetchReviewsAction = createAsyncThunk<ReviewType[], string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/fetchReviews',
+  async (id, {extra: api}) => {
+    const {data} = await api.get<ReviewType[]>(`${ApiRoute.Comments}/${id}`);
+    return data;
+  },
+);
+
+export const postCommentAction = createAsyncThunk<ReviewType, PostCommentInfo, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/postComment',
+  async ({id, comment}, {extra: api}) => {
+    const {data} = await api.post<ReviewType>(`${ApiRoute.Comments}/${id}`, {rating: comment.rating, comment: comment.comment});
+    return data;
   },
 );

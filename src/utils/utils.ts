@@ -1,5 +1,5 @@
-import { OfferType, SortName } from '../types/types';
-import { SortOption } from '../const';
+import { CommonOfferType, DetailedOffer, OfferType, ReviewType, SortName } from '../types/types';
+import { MAX_PERCENT_WIDTH, SortOption, STARS_COUNT } from '../const';
 
 export const groupFavoriteOffers = (offers: OfferType[]): { [key: string]: OfferType[] } => {
   const favorites = offers.filter((offer) => offer.isFavorite);
@@ -31,3 +31,36 @@ export const sortOffers = (offers: OfferType[], sortType: SortName): OfferType[]
       return offers;
   }
 };
+
+export const sortReviews = (reviews: ReviewType[]) => [...reviews].sort((a, b) => {
+  const dateA = new Date(a.date);
+  const dateB = new Date(b.date);
+  return dateB.getTime() - dateA.getTime();
+});
+
+export const getCommonTypeOffers = (offer: DetailedOffer, nearbyOffers: OfferType[]): CommonOfferType[] => {
+  const commonOffer = {
+    id: offer.id,
+    location: offer.location,
+  };
+  const commonNearbyOffers = nearbyOffers.map((nearbyOffer) => ({
+    id: nearbyOffer.id,
+    location: nearbyOffer.location,
+  }));
+  return [commonOffer, ...commonNearbyOffers];
+};
+
+export const getFormattedDate = (date: string) => {
+  const dateObj = new Date(date);
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    year: 'numeric',
+  }).format(dateObj);
+};
+
+export const getShortDate = (date: string) => date.split('T')[0];
+
+export const getStarsRatingWidth = (rating: number) => `${Math.round(rating) * MAX_PERCENT_WIDTH / STARS_COUNT}%`;
+
+export const capitalizeWord = (word: string) => word.charAt(0).toUpperCase() + word.slice(1);
+export const pluralizeWord = (word: string, count: number) => count === 1 ? word : `${word}s`;

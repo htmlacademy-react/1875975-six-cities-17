@@ -1,20 +1,21 @@
 import {useRef, useEffect} from 'react';
 import { Icon, Marker, layerGroup } from 'leaflet';
-import { City, OfferType } from '../../types/types';
+import { City, CommonOfferType, OfferType } from '../../types/types';
 
 import useMap from '../../hooks/use-map';
 import { MARKER } from '../../const';
 
 type MapProps = {
   city: City;
-  offers: OfferType[];
-  activeCardId: string | null;
+  offers: OfferType[] | CommonOfferType[];
+  activeCardId: string | null | undefined;
+  mapPlace: 'cities' | 'offer';
 }
 
 const defaultMarker = new Icon(MARKER.default);
 const currentMarker = new Icon(MARKER.current);
 
-function Map({city, offers, activeCardId}: MapProps) {
+function Map({city, offers, activeCardId, mapPlace}: MapProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -25,22 +26,29 @@ function Map({city, offers, activeCardId}: MapProps) {
         const { latitude: lat, longitude: lng } = offer.location;
         const marker = new Marker({ lat, lng });
 
-        marker
-          .setIcon(
+        if (mapPlace === 'offer') {
+          if (offer.id === activeCardId) {
+            marker.setIcon(currentMarker).addTo(markerLayer);
+          } else {
+            marker.setIcon(defaultMarker).addTo(markerLayer);
+          }
+        } else {
+
+          marker.setIcon(
             activeCardId !== undefined && offer.id === activeCardId
               ? currentMarker
               : defaultMarker
-          )
-          .addTo(markerLayer);
+          ).addTo(markerLayer);
+        }
       });
 
       return () => {
         map.removeLayer(markerLayer);
       };
     }
-  }, [city, map, offers, activeCardId]);
+  }, [city, map, offers, activeCardId, mapPlace]);
 
-  return <section className="cities__map map" ref={mapRef} />;
+  return <section className={`${mapPlace}__map map`} ref={mapRef} />;
 }
 
 export default Map;

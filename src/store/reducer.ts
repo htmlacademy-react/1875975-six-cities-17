@@ -1,8 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { changeCity, loadOffers, changeSort, requireAuthorization, setUserData } from './action';
-import { fetchOffersAction, loginAction, logoutAction } from './api-actions';
+import { fetchNearbyOffersAction, fetchOfferAction, fetchOffersAction, fetchReviewsAction, loginAction, logoutAction, postCommentAction } from './api-actions';
 
-import { City, OfferType, SortName, UserData } from '../types/types';
+import { City, DetailedOffer, OfferType, ReviewType, SortName, UserData } from '../types/types';
 import { AuthorizationStatus, CITIES_LIST } from '../const';
 import { SortOption } from '../const';
 
@@ -11,8 +11,12 @@ type State = {
   offers: OfferType[];
   sorting: SortName;
   isOffersLoading: boolean;
+  offer: DetailedOffer | null;
+  isOfferLoading: boolean;
   authorizationStatus: AuthorizationStatus;
   userData: UserData | null;
+  nearbyOffers: OfferType[];
+  reviews: ReviewType[];
 }
 
 const initialState: State = {
@@ -20,8 +24,12 @@ const initialState: State = {
   offers: [],
   sorting: SortOption.Popular,
   isOffersLoading: false,
+  offer: null,
+  isOfferLoading: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   userData: null,
+  nearbyOffers: [],
+  reviews: [],
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -40,6 +48,25 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(fetchOffersAction.rejected, (state) => {
       state.isOffersLoading = false;
+    })
+    .addCase(fetchOfferAction.pending, (state) => {
+      state.isOfferLoading = true;
+    })
+    .addCase(fetchOfferAction.fulfilled, (state, action) => {
+      state.offer = action.payload;
+      state.isOfferLoading = false;
+    })
+    .addCase(fetchOfferAction.rejected, (state) => {
+      state.isOfferLoading = false;
+    })
+    .addCase(fetchNearbyOffersAction.fulfilled, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(fetchReviewsAction.fulfilled, (state, action) => {
+      state.reviews = action.payload;
+    })
+    .addCase(postCommentAction.fulfilled, (state, action) => {
+      state.reviews.push(action.payload);
     })
     .addCase(changeSort, (state, action) => {
       state.sorting = action.payload;

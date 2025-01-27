@@ -39,13 +39,13 @@ function Header() {
                     <span className="header__login">Sign in</span>}
                 </Link>
               </li>
-              {authorizationStatus === AuthorizationStatus.Auth ? (
+              {authorizationStatus === AuthorizationStatus.Auth && (
                 <li className="header__nav-item">
                   <Link className="header__nav-link" to="#" onClick={handleLogout}>
                     <span className="header__signout">Sign out</span>
                   </Link>
                 </li>
-              ) : ''}
+              )}
             </ul>
           </nav>
         </div>

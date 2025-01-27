@@ -48,7 +48,7 @@ function MainPage() {
               <CardList offers={sortedOffers} onCardMouseEnter={handleCardMouseEnter} onCardMouseLeave={handleCardMouseLeave}/>
             </section>
             <div className="cities__right-section">
-              <Map city={activeCity} offers={activeOffers} activeCardId={activeCardId} />
+              <Map city={activeCity} offers={activeOffers} activeCardId={activeCardId} mapPlace='cities'/>
             </div>
           </div>
         </div>
