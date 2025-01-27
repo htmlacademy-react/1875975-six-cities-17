@@ -135,7 +135,7 @@ function Offer() {
               </section>
             </div>
           </div>
-          <Map city={offer.city} offers={commonTypeOffers} activeCardId={id} mapPlace={'offer'} />
+          <Map city={offer.city} offers={commonTypeOffers} activeCardId={id ?? null} mapPlace={'offer'} />
         </section>
         <div className="container">
           <section className="near-places places">
