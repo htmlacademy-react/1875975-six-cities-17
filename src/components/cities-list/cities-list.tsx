@@ -1,14 +1,13 @@
-import { useAppDispatch } from '../../hooks';
+import { memo } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 import { CITIES_LIST } from '../../const';
-import { changeCity } from '../../store/action';
+import { changeCity } from '../../store/app-process/app-process';
+import { getActiveCity } from '../../store/app-process/selectors';
 
-type CitiesListProps = {
-  activeCityName: string;
-}
-
-function CitiesList({activeCityName}: CitiesListProps) {
+function CitiesListComponent() {
   const dispatch = useAppDispatch();
+  const activeCity = useAppSelector(getActiveCity);
 
   return (
     <section className="locations container">
@@ -16,7 +15,7 @@ function CitiesList({activeCityName}: CitiesListProps) {
         {CITIES_LIST.map((city) => (
           <li key={city.name} className="locations__item">
             <a
-              className={`locations__item-link tabs__item ${city.name === activeCityName ? 'tabs__item--active' : ''}`}
+              className={`locations__item-link tabs__item ${city.name === activeCity.name ? 'tabs__item--active' : ''}`}
               href="#"
               onClick={(evt) => {
                 evt.preventDefault();
@@ -31,5 +30,7 @@ function CitiesList({activeCityName}: CitiesListProps) {
     </section>
   );
 }
+
+const CitiesList = memo(CitiesListComponent);
 
 export default CitiesList;

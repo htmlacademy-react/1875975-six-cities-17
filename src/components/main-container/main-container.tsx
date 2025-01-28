@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useAppSelector } from '../../hooks';
-import { getCurrentSorting } from '../../store/selectors';
+import { getCurrentSorting } from '../../store/app-process/selectors';
 import { City, OfferType } from '../../types/types';
 import { sortOffers } from '../../utils/utils';
 import CardList from '../card-list/card-list';
@@ -18,13 +18,13 @@ function MainContainer({offers, activeCity}: MainContainerProps) {
 
   const [activeCardId, setActiveCardId] = useState<string | null>(null);
 
-  const handleCardMouseEnter = (id: string | null) => {
+  const handleCardMouseEnter = useCallback((id: string | null) => {
     setActiveCardId(id);
-  };
+  }, []);
 
-  const handleCardMouseLeave = () => {
+  const handleCardMouseLeave = useCallback(() => {
     setActiveCardId(null);
-  };
+  }, []);
 
   return (
     <div className="cities__places-container container">

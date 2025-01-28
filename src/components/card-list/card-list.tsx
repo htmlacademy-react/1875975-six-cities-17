@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Card from '../card/card';
 import type { OfferType } from '../../types/types';
 
@@ -7,7 +8,7 @@ type CardListProps = {
   onCardMouseLeave: () => void;
 };
 
-function CardList({ offers, onCardMouseEnter, onCardMouseLeave }: CardListProps) {
+function CardListComponent({ offers, onCardMouseEnter, onCardMouseLeave }: CardListProps) {
 
   return (
     <div className="cities__places-list places__list tabs__content">
@@ -22,5 +23,7 @@ function CardList({ offers, onCardMouseEnter, onCardMouseLeave }: CardListProps)
     </div>
   );
 }
+
+const CardList = memo(CardListComponent);
 
 export default CardList;
