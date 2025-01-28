@@ -3,7 +3,7 @@ import {ChangeEvent ,Fragment, useState } from 'react';
 import { RATING_VALUE } from '../../const';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../hooks';
-import { getOfferData } from '../../store/selectors';
+import { getOfferData } from '../../store/offer-process/selectors';
 import { postCommentAction } from '../../store/api-actions';
 import { Comment } from '../../types/types';
 

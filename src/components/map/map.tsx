@@ -8,7 +8,7 @@ import { MARKER } from '../../const';
 type MapProps = {
   city: City;
   offers: OfferType[] | CommonOfferType[];
-  activeCardId: string | null | undefined;
+  activeCardId: string | null;
   mapPlace: 'cities' | 'offer';
 }
 

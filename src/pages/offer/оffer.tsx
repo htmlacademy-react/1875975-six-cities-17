@@ -8,7 +8,9 @@ import Form from '../../components/form/form';
 import Map from '../../components/map/map';
 import { useAppDispatch } from '../../hooks';
 import { fetchNearbyOffersAction, fetchOfferAction, fetchReviewsAction } from '../../store/api-actions';
-import { getAuthorizationStatus, getNearbyOffers, getOfferData, getOfferLoadingStatus, getReviews } from '../../store/selectors';
+import { getNearbyOffers, getOfferData, getOfferLoadingStatus } from '../../store/offer-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getReviews } from '../../store/reviews-process/selectors';
 import { AuthorizationStatus, MAX_NEARBY_OFFERS, START_INDEX } from '../../const';
 import { capitalizeWord, pluralizeWord, getStarsRatingWidth, getCommonTypeOffers } from '../../utils/utils';
 import Card from '../../components/card/card';
@@ -135,7 +137,7 @@ function Offer() {
               </section>
             </div>
           </div>
-          <Map city={offer.city} offers={commonTypeOffers} activeCardId={id} mapPlace={'offer'} />
+          <Map city={offer.city} offers={commonTypeOffers} activeCardId={id ?? null} mapPlace={'offer'} />
         </section>
         <div className="container">
           <section className="near-places places">

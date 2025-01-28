@@ -1,15 +1,16 @@
+import { memo } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from '../../hooks';
 
 import { SortName } from '../../types/types';
 import { SortOption } from '../../const';
-import { changeSort } from '../../store/action';
+import { changeSort } from '../../store/app-process/app-process';
 
 type SortingProps = {
   currentSorting: SortName;
 }
 
-function Sorting({currentSorting}: SortingProps) {
+function SortingComponents({currentSorting}: SortingProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
@@ -63,5 +64,7 @@ function Sorting({currentSorting}: SortingProps) {
     </form>
   );
 }
+
+const Sorting = memo(SortingComponents);
 
 export default Sorting;

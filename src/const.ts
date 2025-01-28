@@ -116,3 +116,11 @@ export enum ApiRoute {
   Logout = '/logout',
   Nearby = '/nearby'
 }
+
+export enum NameSpace {
+  App = 'APP',
+  User = 'USER',
+  Offers = 'OFFERS',
+  DetailedOffer = 'OFFER',
+  Reviews = 'REVIEWS',
+}
