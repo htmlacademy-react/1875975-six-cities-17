@@ -1,15 +1,14 @@
 import {ChangeEvent ,Fragment, useState } from 'react';
 
-import { RATING_VALUE } from '../../const';
+import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, RATING_VALUE } from '../../const';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../hooks';
 import { getOfferData } from '../../store/offer-process/selectors';
 import { postCommentAction } from '../../store/api-actions';
 import { Comment } from '../../types/types';
 
-// ДОРАБОТАТЬ ВАЛИДАЦИЮ И БЛОКИРОВКУ!!!
-
 function Form() {
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [formData, setFormData] = useState<Comment>({
     rating: 0,
     comment: '',
@@ -22,9 +21,15 @@ function Form() {
     setFormData(evt.target.name === 'review' ? {...formData, comment: value} : {...formData, rating: +value});
   };
 
+  const isSubmitDisabled = () => {
+    const isCommentValid = formData.comment.length >= MIN_COMMENT_LENGTH && formData.comment.length <= MAX_COMMENT_LENGTH;
+    return !formData.rating || !isCommentValid || isSubmitting;
+  };
+
   const handleFormSubmit = (evt: ChangeEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if(offer) {
+      setIsSubmitting(true);
       dispatch(postCommentAction({
         id: offer.id,
         comment: formData,
@@ -36,6 +41,9 @@ function Form() {
               comment: '',
             });
           }
+        })
+        .finally(() => {
+          setIsSubmitting(false);
         });
     }
   };
@@ -79,7 +87,7 @@ function Form() {
         <p className="reviews__help">
         To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit">Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={isSubmitDisabled()}>Submit</button>
       </div>
     </form>
   );

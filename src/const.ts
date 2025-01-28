@@ -5,6 +5,8 @@ export const MAX_PERCENT_WIDTH = 100;
 export const START_INDEX = 0;
 export const MAX_NEARBY_OFFERS = 3;
 export const MAX_REVIEWS = 10;
+export const MIN_COMMENT_LENGTH = 50;
+export const MAX_COMMENT_LENGTH = 300;
 
 export const enum AppRoute {
   Index = '/',
