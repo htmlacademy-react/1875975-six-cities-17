@@ -3,11 +3,13 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getAuthorizationStatus, getUserData } from '../../store/user-process/selectors';
 import { logoutAction } from '../../store/api-actions';
+import { getFavoriteOffers } from '../../store/favorites-process/selectors';
 
 function Header() {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const userData = useAppSelector(getUserData);
   const userEmail = userData ? userData.email : '';
+  const favoriteCount = useAppSelector(getFavoriteOffers).length;
 
   const dispatch = useAppDispatch();
 
@@ -34,7 +36,7 @@ function Header() {
                   {authorizationStatus === AuthorizationStatus.Auth ? (
                     <>
                       <span className="header__user-name user__name">{userEmail}</span>
-                      <span className="header__favorite-count">3</span>
+                      <span className="header__favorite-count">{favoriteCount}</span>
                     </>) :
                     <span className="header__login">Sign in</span>}
                 </Link>

@@ -2,45 +2,31 @@ import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
 
 import Header from '../../components/header/header';
-import Card from '../../components/card/card';
+import Loader from '../../components/loader/loader';
 
-import type { OfferType } from '../../types/types';
+import { useSelector } from 'react-redux';
+import { getFavoriteLoadingStatus, getFavoriteOffers } from '../../store/favorites-process/selectors';
+import FavoritesContainer from '../../components/favorites-container/favorites-container';
+import FavoritesContainerEmpty from '../../components/favorites-container-empty/favorites-container-empty';
 
-import { groupFavoriteOffers } from '../../utils/utils';
+function Favorites() {
 
-type FavoritesProps = {
-  offers: OfferType[];
-}
+  const favoriteOffers = useSelector(getFavoriteOffers);
+  const isFavoritesLoading = useSelector(getFavoriteLoadingStatus);
 
-function Favorites({offers}: FavoritesProps) {
-
-  const groupedFavoriteOffers = groupFavoriteOffers(offers);
+  if (isFavoritesLoading) {
+    return (
+      <Loader />
+    );
+  }
 
   return (
     <div className="page">
       <Header />
       <main className="page__main page__main--favorites">
-        <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              {Object.entries(groupedFavoriteOffers).map(([city, groupedOffers]) => (
-                <li className="favorites__locations-items" key={city}>
-                  <div className="favorites__locations locations locations--current">
-                    <div className="locations__item">
-                      <a className="locations__item-link" href="#">
-                        <span>{city}</span>
-                      </a>
-                    </div>
-                  </div>
-                  <div className="favorites__places">
-                    {groupedOffers.map((offer) => <Card key={offer.id} {...offer} category="favorites" />)}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </div>
+        {favoriteOffers.length
+          ? <FavoritesContainer />
+          : <FavoritesContainerEmpty />};
       </main>
       <footer className="footer container">
         <Link className="footer__logo-link" to={AppRoute.Index}>

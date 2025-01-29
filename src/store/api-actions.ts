@@ -98,3 +98,34 @@ export const postCommentAction = createAsyncThunk<ReviewType, PostCommentInfo, {
     return data;
   },
 );
+
+export const fetchFavoriteOffersAction = createAsyncThunk<OfferType[], undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/fetchFavoriteOffers',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<OfferType[]>(ApiRoute.Favorites);
+    return data;
+  },
+);
+
+export const changeFavoriteStatusAction = createAsyncThunk<OfferType, { id: string; wasFavorite: boolean }, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/changeFavoriteStatus',
+  async ({ id, wasFavorite }, {getState, extra: api }) => {
+    const nextStatus = +!wasFavorite;
+    const { data } = await api.post<OfferType>(`${ApiRoute.Favorites}/${id}/${nextStatus}`);
+    const {offers} = getState().OFFERS;
+    const currentOffer = offers.find((offer) => offer.id === data.id);
+    if (!currentOffer) {
+      throw new Error(`Offer with id ${data.id} not found`);
+    }
+    return {...currentOffer, isFavorite: data.isFavorite};
+  },
+);
+

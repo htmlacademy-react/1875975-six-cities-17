@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import Loader from '../../components/loader/loader';
 import NotFound from '../not-found/not-found';
 import Header from '../../components/header/header';
+import FavoriteButton from '../../components/favorite-button/favorite-button';
 import Form from '../../components/form/form';
 import Map from '../../components/map/map';
 import { useAppDispatch } from '../../hooks';
@@ -69,12 +70,13 @@ function Offer() {
                 <h1 className="offer__name">
                   {title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
+                {id && <FavoriteButton id={id} place='offer' />}
+                {/* <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
                   <span className="visually-hidden">To bookmarks</span>
-                </button>
+                </button> */}
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">

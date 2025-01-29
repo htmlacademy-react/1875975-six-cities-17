@@ -32,7 +32,7 @@ function MainContainer({offers, activeCity}: MainContainerProps) {
         <h2 className="visually-hidden">Places</h2>
         <b className="places__found">{offers.length} places to stay in {activeCity.name}</b>
         <Sorting currentSorting={currentSorting}/>
-        <CardList offers={sortedOffers} onCardMouseEnter={handleCardMouseEnter} onCardMouseLeave={handleCardMouseLeave}/>
+        <CardList offers={sortedOffers} onCardMouseEnter={handleCardMouseEnter} onCardMouseLeave={handleCardMouseLeave} />
       </section>
       <div className="cities__right-section">
         <Map city={activeCity} offers={offers} activeCardId={activeCardId} mapPlace='cities'/>

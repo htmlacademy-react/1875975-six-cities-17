@@ -16,7 +16,7 @@ function App() {
         <Route path={`${AppRoute.Offer}/:id`} element={<Offer />} />
         <Route path={AppRoute.Favorites} element={
           <PrivateRoute>
-            <Favorites offers={[]} />
+            <Favorites />
           </PrivateRoute>
         }
         />
