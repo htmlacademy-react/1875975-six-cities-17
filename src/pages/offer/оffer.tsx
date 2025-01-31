@@ -63,20 +63,12 @@ function Offer() {
           </div>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              <div className="offer__mark">
-                {isPremium && (<div className="offer__mark"><span>Premium</span></div>)}
-              </div>
+              {isPremium && (<div className="offer__mark"><span>Premium</span></div>)}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
                   {title}
                 </h1>
                 {id && <FavoriteButton id={id} place='offer' />}
-                {/* <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button> */}
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
@@ -124,9 +116,6 @@ function Offer() {
                   </span>
                 </div>
                 <div className="offer__description">
-                  <p className="offer__text">
-                    A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.
-                  </p>
                   <p className="offer__text">
                     {description}
                   </p>

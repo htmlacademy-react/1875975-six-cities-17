@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { OfferType } from '../../types/types';
 import { NameSpace } from '../../const';
 import { changeFavoriteStatusAction, fetchFavoriteOffersAction } from '../api-actions';
+import { toast } from 'react-toastify';
 
 type FavoritesProcess = {
   favoriteOffers: OfferType[];
@@ -27,7 +28,6 @@ export const favoritesProcess = createSlice({
         state.isFavoriteLoading = false;
       })
       .addCase(fetchFavoriteOffersAction.rejected, (state) => {
-        state.favoriteOffers = [];
         state.isFavoriteLoading = false;
       })
       .addCase(changeFavoriteStatusAction.fulfilled, (state, action) => {
@@ -37,6 +37,9 @@ export const favoritesProcess = createSlice({
           const favoriteOfferIndex = state.favoriteOffers.findIndex((offer) => offer.id === action.payload.id);
           state.favoriteOffers.splice(favoriteOfferIndex, 1);
         }
+      })
+      .addCase(changeFavoriteStatusAction.rejected, () => {
+        toast.error('Conflict while processing the request. Please check the data and try again.');
       });
   }
 });

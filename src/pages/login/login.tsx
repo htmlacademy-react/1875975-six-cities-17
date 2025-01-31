@@ -1,15 +1,30 @@
-import { useRef, FormEvent } from 'react';
+import { useRef, FormEvent, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AppRoute } from '../../const';
-import { useAppDispatch } from '../../hooks';
+import { AppRoute, AuthorizationStatus, CITIES_LIST } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getRandomCity } from '../../utils/utils';
+import { changeCity } from '../../store/app-process/app-process';
 
 function Login() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const randomCity = getRandomCity(CITIES_LIST);
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      navigate(AppRoute.Index);
+    }
+  }, [authorizationStatus, navigate]);
+
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const handleCityClick = () => {
+    dispatch(changeCity(randomCity));
+  };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -19,9 +34,10 @@ function Login() {
         email: loginRef.current.value,
         password: passwordRef.current.value
       }))
-        .unwrap()
-        .then(() => {
-          navigate(AppRoute.Index);
+        .then((response) => {
+          if (response.meta.requestStatus === 'fulfilled') {
+            navigate(AppRoute.Index);
+          }
         });
     }
   };
@@ -78,9 +94,9 @@ function Login() {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>Amsterdam</span>
-              </a>
+              <Link className="locations__item-link" onClick={handleCityClick} to={AppRoute.Index}>
+                <span>{randomCity.name}</span>
+              </Link>
             </div>
           </section>
         </div>
