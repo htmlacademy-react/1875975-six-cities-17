@@ -1,4 +1,4 @@
-import { CommonOfferType, DetailedOffer, OfferType, ReviewType, SortName } from '../types/types';
+import { City, CommonOfferType, DetailedOffer, OfferType, ReviewType, SortName } from '../types/types';
 import { MAX_PERCENT_WIDTH, SortOption, STARS_COUNT } from '../const';
 
 export const groupFavoriteOffers = (offers: OfferType[]): { [key: string]: OfferType[] } => {
@@ -12,6 +12,8 @@ export const groupFavoriteOffers = (offers: OfferType[]): { [key: string]: Offer
     return acc;
   }, {});
 };
+
+export const getRandomCity = (cities: City[]) => cities[Math.floor(Math.random() * cities.length)];
 
 export const sortOffers = (offers: OfferType[], sortType: SortName): OfferType[] => {
   switch (sortType) {

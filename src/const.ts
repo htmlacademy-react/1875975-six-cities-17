@@ -13,7 +13,8 @@ export const enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer',
-  NotFound = '*'
+  NotFound = '*',
+  Main = "Main"
 }
 
 export const enum AuthorizationStatus {

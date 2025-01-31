@@ -14,16 +14,15 @@ function CitiesListComponent() {
       <ul className="locations__list tabs__list">
         {CITIES_LIST.map((city) => (
           <li key={city.name} className="locations__item">
-            <a
+            <div
               className={`locations__item-link tabs__item ${city.name === activeCity.name ? 'tabs__item--active' : ''}`}
-              href="#"
-              onClick={(evt) => {
-                evt.preventDefault();
+              style={{cursor: 'pointer'}}
+              onClick={() => {
                 dispatch(changeCity(city));
               }}
             >
               <span>{city.name}</span>
-            </a>
+            </div>
           </li>
         ))}
       </ul>

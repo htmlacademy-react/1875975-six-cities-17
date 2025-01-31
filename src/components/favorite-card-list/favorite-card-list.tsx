@@ -1,11 +1,21 @@
-import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { getFavoriteOffers } from '../../store/favorites-process/selectors';
 import { groupFavoriteOffers } from '../../utils/utils';
 import Card from '../card/card';
+import { AppRoute, CITIES_LIST } from '../../const';
+import { changeCity } from '../../store/app-process/app-process';
 
 function FavoriteCardList() {
   const favoriteOffers = useSelector(getFavoriteOffers);
   const groupedFavoriteOffers = groupFavoriteOffers(favoriteOffers);
+  const dispatch = useDispatch();
+  const handleCityClick = (cityName: string) => {
+    const activeCity = CITIES_LIST.find((elem) => elem.name === cityName);
+    if (activeCity) {
+      dispatch(changeCity(activeCity));
+    }
+  };
 
   return (
     <ul className="favorites__list">
@@ -13,9 +23,9 @@ function FavoriteCardList() {
         <li className="favorites__locations-items" key={city}>
           <div className="favorites__locations locations locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
+              <Link className="locations__item-link" onClick={() => handleCityClick(city)} to={AppRoute.Index}>
                 <span>{city}</span>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="favorites__places">
