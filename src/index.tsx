@@ -8,8 +8,11 @@ import { fetchOffersAction, checkAuthAction, fetchFavoriteOffersAction } from '.
 
 
 store.dispatch(fetchOffersAction());
-store.dispatch(checkAuthAction());
-store.dispatch(fetchFavoriteOffersAction());
+store.dispatch(checkAuthAction()).then((response) => {
+  if (response.meta.requestStatus === 'fulfilled') {
+    store.dispatch(fetchFavoriteOffersAction());
+  }
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

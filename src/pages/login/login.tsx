@@ -1,4 +1,4 @@
-import { useRef, FormEvent } from 'react';
+import { useRef, FormEvent, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, CITIES_LIST } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -13,9 +13,11 @@ function Login() {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const randomCity = getRandomCity(CITIES_LIST);
 
-  if (authorizationStatus === AuthorizationStatus.Auth) {
-    navigate(AppRoute.Index);
-  }
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      navigate(AppRoute.Index);
+    }
+  }, [authorizationStatus, navigate]);
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -32,9 +34,10 @@ function Login() {
         email: loginRef.current.value,
         password: passwordRef.current.value
       }))
-        .unwrap()
-        .then(() => {
-          navigate(AppRoute.Index);
+        .then((response) => {
+          if (response.meta.requestStatus === 'fulfilled') {
+            navigate(AppRoute.Index);
+          }
         });
     }
   };
