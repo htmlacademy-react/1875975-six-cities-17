@@ -14,7 +14,6 @@ export const enum AppRoute {
   Favorites = '/favorites',
   Offer = '/offer',
   NotFound = '*',
-  Main = "Main"
 }
 
 export const enum AuthorizationStatus {
